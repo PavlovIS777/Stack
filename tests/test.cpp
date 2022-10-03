@@ -323,5 +323,7 @@ int main(int argc, char **argv)
 {
 	srand(time(nullptr));
 	::testing::InitGoogleTest(&argc, argv);
+	int * tmp = new int[10];
 	return RUN_ALL_TESTS();
+
 }
