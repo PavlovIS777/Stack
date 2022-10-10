@@ -1,5 +1,7 @@
 #include "stack.h"
 
+namespace PIlib {
+
 template <>
 class stack<bool> {
 public:
@@ -124,3 +126,4 @@ stack<bool> &stack<bool>::operator=(stack<bool> &&other) noexcept
     other.data_ = nullptr;
     return *this;
 }
+} //namespace PIlib
