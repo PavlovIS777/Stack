@@ -5,7 +5,7 @@
 #include <random>
 #include <string>
 #include <exception>
-#include "stack.hpp"
+#include "stack.h"
 
 TEST(stackTop, empty)
 {
