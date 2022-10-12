@@ -2,18 +2,14 @@ cmake_minimum_required(VERSION 3.16)
 project(STACK) 
 set(CMAKE_CXX_STANDARD 17)
 file(MAKE_DIRECTORY build)
-file(MAKE_DIRECTORY ./build/Release)
-file(MAKE_DIRECTORY ./build/Debug)
-
 
 include_directories(inc src tests)
 add_compile_options(-std=c++17 -O2)
-include_directories(tests src)
 
 
 #tests
-add_executable(test ${CMAKE_SOURCE_DIR}/tests/test.cpp)
-string (TOLOWER ${CMAKE_BUILD_TYPE} build_type)
+add_executable(test ${CMAKE_SOURCE_DIR}/tests/test.cpp ${CMAKE_SOURCE_DIR}/src/stack.cpp)
+string (TOLOWER DCMAKE_BUILD_TYPE build_type)
 if (build_type STREQUAL debug)
     add_compile_options(-g -fsanitize=address)
     target_link_libraries(test -fsanitize=address)
@@ -24,10 +20,10 @@ target_link_libraries(test gtest gmock pthread)
 #clang-tidy
 find_program(CLANG_TIDY "clang-tidy")
 if(CLANG_TIDY)
-  add_custom_target(
-    clang-tidy
-    COMMAND clang-tidy ${CMAKE_SOURCE_DIR}/src/stack.cpp ${CMAKE_SOURCE_DIR}/inc/stack.h -- -I ../inc/stack.h
-    )
+	add_custom_target(
+	clang-tidy
+	COMMAND clang-tidy ${CMAKE_SOURCE_DIR}/src/stack.cpp -- -std=c++17 -O2 -I ${CMAKE_SOURCE_DIR}/inc
+	)
 endif()
 
 

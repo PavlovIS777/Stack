@@ -2,29 +2,6 @@
 
 namespace PIlib {
 
-template <>
-class stack<bool> {
-public:
-    stack() : data_(new uint64_t[DEFAULT_BOOL_STACK_CAPACITY / sizeof(int64_t)] {0}) {}
-    ~stack();
-    stack(const stack<bool> &);
-    stack(stack<bool> &&other) noexcept;
-    bool top() const;
-    void push(const bool &value);
-    void push(bool &&);
-    void pop();
-    bool empty() const;
-    void resize(int64_t newCapacity);
-    int64_t size() const;
-    stack<bool> &operator=(const stack<bool> &);
-    stack<bool> &operator=(stack<bool> &&) noexcept;
-
-private:
-    uint64_t *data_ = nullptr;
-    int64_t size_ = 0;
-    int64_t capacity_ = DEFAULT_BOOL_STACK_CAPACITY;
-};
-
 void stack<bool>::resize(int64_t newCapacity)
 {
     auto *newData_ = new uint64_t[newCapacity / sizeof(int64_t)];
@@ -53,20 +30,13 @@ void stack<bool>::push(bool &&value)
 
 void stack<bool>::pop()
 {
-    if (size_ == 0) {
-        throw std::out_of_range("Segmentation fault. Stack is empty");
-    }
     size_--;
 }
 
 bool stack<bool>::top() const
 {
-    if (size_ == 0) {
-        throw std::out_of_range("Segmentation fault. Stack is empty.\n");
-    }
     int64_t pos = (size_ - 1) % (sizeof(int64_t) * BIT_IN_BYTE);
     int64_t offset = (size_ - 1) / (sizeof(int64_t) * BIT_IN_BYTE);
-
     return (data_[offset] & (1ull << pos));
 }
 
@@ -126,4 +96,4 @@ stack<bool> &stack<bool>::operator=(stack<bool> &&other) noexcept
     other.data_ = nullptr;
     return *this;
 }
-} //namespace PIlib
+}  // namespace PIlib
